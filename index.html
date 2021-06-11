@@ -236,8 +236,8 @@
       if (!ButtonPressed)
         return;
       NewPos = getMousePos(canvas, e);
-      Pos.x += (NewPos.x - PrevPos.x) / size * 0.005;
-      Pos.y += (NewPos.y - PrevPos.y) / size * 0.005;
+      Pos.x += (NewPos.x - PrevPos.x) / size * -0.0045;
+      Pos.y += (NewPos.y - PrevPos.y) / size * -0.0045;
       PrevPos = NewPos;
     }
 
@@ -250,15 +250,15 @@
     function onWheel(e) {
       if (e.deltaY < 0) {
         size *= 1.05;
-        console.log(PagePos);
-        Pos = { x: Pos.x + 2.0 * PagePos.x / size, y: Pos.y + 2.0 * PagePos.y / size };
+        console.log(PagePos, { x: PagePos.x / size, y: PagePos.y / size });
+        Pos = { x: Pos.x + 1.0 * PagePos.x / size, y: Pos.y - 1.0 * PagePos.y / size };
         /*Pos.x -= PagePos.x / size / 2.0;
         Pos.y += PagePos.y / size / 2.0;*/
       }
       if (e.deltaY > 0) {
         size /= 1.05;
         console.log(PagePos);
-        Pos = { x: Pos.x + 2.0 * PagePos.x / size, y: Pos.y + 2.0 * PagePos.y / size };
+        Pos = { x: Pos.x - 1.0 * PagePos.x / size, y: Pos.y + 1.0 * PagePos.y / size };
         /*Pos.x += PagePos.x / size / 2.0;
         Pos.y -= PagePos.y / size / 2.0;*/
       }
