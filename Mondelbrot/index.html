@@ -227,8 +227,13 @@
     function update_n() {
       data = document.getElementById('n').value;
       n = parseInt(data);
-      if (isNaN(n))
+      if (isNaN(n)) {
         n = 1;
+        document.getElementById('n').style.backgroundColor = '#FF0000';
+      }
+      else {
+        document.getElementById('n').style.backgroundColor = '#FFFFFF';
+      }
       //alert(data);
     }
   </script>
@@ -238,11 +243,11 @@
 
 
 <body onload="webGLStart();">
-  <canvas id="wegl-canvas" style="border: none;" width="4096" height="4096"></canvas>
+  <canvas id="wegl-canvas" style="border: none;" width="1200" height="900"></canvas>
 
   <br />
 
-  <label for="input_n"> cell width</label> <input type="text" id="n" onkeyup="update_n()"><br>
+  <label for="input_n"> Eval depth</label> <input type="text" id="n" onkeyup="update_n()"><br>
 
 </body>
 
