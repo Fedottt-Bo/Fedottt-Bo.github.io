@@ -53,9 +53,6 @@
       frag_prm = fetch("https://fedottt-bo.github.io/Mondelbrot/Frag.gles").then(res => { return res.text() });
       vert_prm = fetch("https://fedottt-bo.github.io/Mondelbrot/Vert.gles").then(res => { return res.text() });
 
-      /*frag_prm.then(text => { var fragmentShader = getShader(gl, text, "x-shader/x-fragment"); });
-      vert_prm.then(text => { var vertexShader = getShader(gl, text, "x-shader/x-vertex"); });*/
-
       Promise.all([frag_prm, vert_prm]).then(values => {
         var fragmentShader = getShader(gl, values[0], "x-shader/x-fragment");
         var vertexShader = getShader(gl, values[1], "x-shader/x-vertex");
@@ -241,7 +238,7 @@
 
 
 <body onload="webGLStart();">
-  <canvas id="wegl-canvas" style="border: none;" width="1200" height="900"></canvas>
+  <canvas id="wegl-canvas" style="border: none;" width="12000" height="9000"></canvas>
 
   <br />
 
