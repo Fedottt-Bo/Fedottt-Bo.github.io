@@ -48,9 +48,9 @@
     var shaderProgram;
 
     async function initShaders() {
-      let frag_prm = fetch("https://fedottt-bo.github.io/Mondelbrot/Frag.gles");
+      let frag_prm = await fetch("https://fedottt-bo.github.io/Mondelbrot/Frag.gles");
       let frag_text = await frag_prm.text();
-      let vert_prm = fetch("https://fedottt-bo.github.io/Mondelbrot/Vert.gles");
+      let vert_prm = await fetch("https://fedottt-bo.github.io/Mondelbrot/Vert.gles");
       let vert_text = await vert_prm.text();
 
       var fragmentShader = getShader(gl, frag_text, "x-shader/x-fragment");
