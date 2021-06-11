@@ -1,0 +1,46 @@
+#version 300 es
+
+precision highp float;
+out highp vec4 fColor;
+
+uniform float MaxN;
+uniform float Size;
+uniform vec2 MinPos;
+uniform vec2 MaxPos;
+
+vec2 ComplAdd(vec2 N1, vec2 N2)
+{
+  vec2 res = vec2(N1.x + N2.x, N1.y + N2.y);
+  return res;
+}
+
+vec2 ComplMul(vec2 N1, vec2 N2)
+{
+  vec2 res = vec2(N1.x * N2.x - N1.y * N2.y, N1.x * N2.y + N1.y * N2.x);
+  return res;
+}
+
+float Mondel(vec2 Z)
+{
+  float n = 0.0;
+  vec2 Z0 = Z;
+
+  while ((n < MaxN) && (abs(Z.x * Z.x + Z.y * Z.y) < 4.0))
+  {
+    Z = ComplAdd(ComplMul(Z, Z), Z0);
+    n += 1.0;
+  }
+
+  n *= MaxN / 256.0;
+
+  return n;
+}
+
+void main(void)
+{
+  float tx = (gl_FragCoord.x - 150.0) / 900.0, ty = gl_FragCoord.y / 900.0;
+  vec2 Pos = vec2(MinPos.x * (1.0 - tx) + MaxPos.x * tx, MinPos.y * (1.0 - ty) + MaxPos.y * ty);
+  float n = Mondel(Pos) / 256.0;
+
+  fColor = vec4(vec3(pow(n, 0.8), pow(n, 0.47), pow(n, 0.3)), 1.0);
+}
