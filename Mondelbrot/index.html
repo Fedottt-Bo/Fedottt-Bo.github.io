@@ -51,7 +51,7 @@
       var frag_txt = null;
       var vert_txt = null;
 
-      Promise.all(fetch(".\Frag.gles"), fetch(".\Vert.gles")).then(Res => frag_txt = Res[0], vert_txt = Res[1]);
+      Promise.all(fetch("./Frag.gles"), fetch("./Vert.gles")).then(response => frag_txt = response[0], vert_txt = response[1]);
 
       var fragmentShader = getShader(gl, frag_txt, "x-shader/x-fragment");
       var vertexShader = getShader(gl, vert_txt, "x-shader/x-vertex");
