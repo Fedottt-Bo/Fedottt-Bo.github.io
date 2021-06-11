@@ -1,0 +1,295 @@
+<html>
+
+<head>
+  <title>Checkers</title>
+
+  <script type="text/javascript" src="glMatrix-0.9.5.min.js"></script>
+
+  <script type="text/javascript">
+    var gl;
+    var checkers_cell_width;
+
+    let shader_fs = `#version 300 es
+
+    precision highp float;
+    out highp vec4 fColor;
+
+    uniform float MaxN;
+    uniform float Size;
+    uniform vec2 MinPos;
+    uniform vec2 MaxPos;
+
+    vec2 ComplAdd(vec2 N1, vec2 N2)
+    {
+      vec2 res = vec2(N1.x + N2.x, N1.y + N2.y);
+      return res;
+    }
+
+    vec2 ComplMul(vec2 N1, vec2 N2)
+    {
+      vec2 res = vec2(N1.x * N2.x - N1.y * N2.y, N1.x * N2.y + N1.y * N2.x);
+      return res;
+    }
+
+    float Mondel(vec2 Z)
+    {
+      float n = 0.0;
+      vec2 Z0 = Z;
+
+      while ((n < MaxN) && (abs(Z.x * Z.x + Z.y * Z.y) < 4.0))
+      {
+        Z = ComplAdd(ComplMul(Z, Z), Z0);
+        n += 1.0;
+      }
+
+      n *= MaxN / 256.0;
+
+      return n;
+    }
+
+    void main(void)
+    {
+      float tx = (gl_FragCoord.x - 150.0) / 900.0, ty = gl_FragCoord.y / 900.0;
+      vec2 Pos = vec2(MinPos.x * (1.0 - tx) + MaxPos.x * tx, MinPos.y * (1.0 - ty) + MaxPos.y * ty);
+      float n = Mondel(Pos) / 256.0;
+
+      fColor = vec4(vec3(pow(n, 0.8), pow(n, 0.47), pow(n, 0.3)), 1.0);
+    }`;
+
+    let shader_vs = `#version 300 es
+
+    precision highp float;
+
+    in vec3 aVertexPosition;
+
+    uniform mat4 uMVMatrix;
+    uniform mat4 uPMatrix;
+
+    void main(void)
+    {
+        gl_Position = vec4(aVertexPosition, 1.0);
+    }`;
+
+    function initGL(canvas) {
+      try {
+        gl = canvas.getContext("webgl2");
+        gl.viewportWidth = canvas.width;
+        gl.viewportHeight = canvas.height;
+      } catch (e) {
+      }
+      if (!gl) {
+        alert("Could not initialise WebGL");
+      }
+    }
+
+
+    function getShader(gl, str, type) {
+      var shader;
+      if (type == "x-shader/x-fragment") {
+        shader = gl.createShader(gl.FRAGMENT_SHADER);
+      } else if (type == "x-shader/x-vertex") {
+        shader = gl.createShader(gl.VERTEX_SHADER);
+      } else {
+        return null;
+      }
+
+      gl.shaderSource(shader, str);
+      gl.compileShader(shader);
+
+      if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+        alert(gl.getShaderInfoLog(shader));
+        return null;
+      }
+
+      return shader;
+    }
+
+    var shaderProgram;
+
+    function initShaders() {
+      var fragmentShader = getShader(gl, shader_fs, "x-shader/x-fragment");
+      var vertexShader = getShader(gl, shader_vs, "x-shader/x-vertex");
+
+      shaderProgram = gl.createProgram();
+      gl.attachShader(shaderProgram, vertexShader);
+      gl.attachShader(shaderProgram, fragmentShader);
+      gl.linkProgram(shaderProgram);
+
+      if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
+        alert("Could not initialise shaders");
+      }
+
+      gl.useProgram(shaderProgram);
+
+      shaderProgram.vertexPositionAttribute = gl.getAttribLocation(shaderProgram, "aVertexPosition");
+      gl.enableVertexAttribArray(shaderProgram.vertexPositionAttribute);
+
+      shaderProgram.pMatrixUniform = gl.getUniformLocation(shaderProgram, "uPMatrix");
+      shaderProgram.mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
+      shaderProgram.n = gl.getUniformLocation(shaderProgram, "MaxN");
+      shaderProgram.MinPos = gl.getUniformLocation(shaderProgram, "MinPos");
+      shaderProgram.MaxPos = gl.getUniformLocation(shaderProgram, "MaxPos");
+      shaderProgram.Size = gl.getUniformLocation(shaderProgram, "Size");
+    }
+
+
+    var mvMatrix = mat4.create();
+    var pMatrix = mat4.create();
+    var n = 256.0;
+    var Pos = { x: 0, y: 0 };
+    var NewPos = { x: 0, y: 0 };
+    var PrevPos = { x: 0, y: 0 };
+    var DeltaPos = { x: 0, y: 0 };
+    var ButtonPressed = false;
+    var size = 1.0;
+    var PagePos = { x: 0, y: 0 };
+
+    function setMatrixUniforms() {
+      let CurPos = { x: (Pos.x + DeltaPos.x), y: (Pos.y + DeltaPos.y) }
+
+      gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix);
+      gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, mvMatrix);
+      gl.uniform1f(shaderProgram.n, n > 4096 ? 4096 : n);
+      gl.uniform2f(shaderProgram.MinPos, CurPos.x - 2.0 / size, CurPos.y - 2.0 / size);
+      gl.uniform2f(shaderProgram.MaxPos, CurPos.x + 2.0 / size, CurPos.y + 2.0 / size);
+      gl.uniform1f(shaderProgram.Size, size);
+    }
+
+    var squareVertexPositionBuffer;
+
+    function initBuffers() {
+      squareVertexPositionBuffer = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, squareVertexPositionBuffer);
+      vertices = [
+        1.0, 1.0, 0.0,
+        -1.0, 1.0, 0.0,
+        1.0, -1.0, 0.0,
+        -1.0, -1.0, 0.0
+      ];
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+      squareVertexPositionBuffer.itemSize = 3;
+      squareVertexPositionBuffer.numItems = 4;
+    }
+
+
+    function drawScene() {
+      gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
+      gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+      //mat4.perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, pMatrix);
+
+      mat4.identity(pMatrix);
+      mat4.identity(mvMatrix);
+
+      //mat4.translate(mvMatrix, [(Pos.x + DeltaPos.x) * 0.001, (Pos.y + DeltaPos.y) * 0.001, 0.0]);
+      //mat4.scale(pMatrix, [size, size, 1.0]);
+
+      //mat4.translate(mvMatrix, [3.0, 0.0, 0.0]);
+      gl.bindBuffer(gl.ARRAY_BUFFER, squareVertexPositionBuffer);
+      gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, squareVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
+      setMatrixUniforms();
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, squareVertexPositionBuffer.numItems);
+    }
+
+    function tick() {
+      window.requestAnimationFrame(tick);
+      drawScene();
+    }
+
+    var canvas = null;
+
+    function webGLStart() {
+      // default cell width
+      checkers_cell_width = 30;
+      document.getElementById('n').value = checkers_cell_width;
+
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.open('GET', '/0/data.txt', false);
+      xmlhttp.send(null);
+      if (xmlhttp.status == 200) {
+        alert(xmlhttp.responseText);
+      }
+
+      canvas = document.getElementById("wegl-canvas");
+      initGL(canvas);
+      initShaders();
+      initBuffers();
+      canvas.addEventListener("mousedown", onMouseDown);
+      canvas.addEventListener("mouseup", onMouseUp);
+      canvas.addEventListener("mousemove", MouseMove);
+      canvas.addEventListener("wheel", onWheel);
+
+      gl.clearColor(0.0, 0.0, 0.0, 1.0);
+      gl.enable(gl.DEPTH_TEST);
+
+      drawScene();
+      tick();
+    }
+
+    function onMouseDown(e) {
+      PrevPos = getMousePos(canvas, e);
+      ButtonPressed = true;
+    }
+
+    function MouseMove(e) {
+      PagePos = { x: (e.clientX - canvas.offsetLeft) / (canvas.width / 2.0) - 1.0, y: (e.clientY - canvas.offsetTop) / (canvas.height / 2.0) - 1.0 };
+      if (!ButtonPressed)
+        return;
+      NewPos = getMousePos(canvas, e);
+      Pos.x += (NewPos.x - PrevPos.x) / size * 0.005;
+      Pos.y += (NewPos.y - PrevPos.y) / size * 0.005;
+      PrevPos = NewPos;
+    }
+
+    function onMouseUp(e) {
+      /*Pos = { x: Pos.x + DeltaPos.x, y: Pos.y + DeltaPos.y };
+      DeltaPos = { x: 0, y: 0 };*/
+      ButtonPressed = false;
+    }
+
+    function onWheel(e) {
+      if (e.deltaY < 0) {
+        size *= 1.05;
+        Pos = { x: Pos.x + 2.0 * PagePos.x / size, y: Pos.y + 2.0 * PagePos.y / size };
+        /*Pos.x -= PagePos.x / size / 2.0;
+        Pos.y += PagePos.y / size / 2.0;*/
+      }
+      if (e.deltaY > 0) {
+        size /= 1.05;
+        Pos = { x: Pos.x + 2.0 * PagePos.x / size, y: Pos.y + 2.0 * PagePos.y / size };
+        /*Pos.x += PagePos.x / size / 2.0;
+        Pos.y -= PagePos.y / size / 2.0;*/
+      }
+    }
+
+    function getMousePos(canvas, e) {
+      var rect = canvas.getBoundingClientRect();
+      return {
+        x: Math.round((e.clientX - rect.left) / (rect.right - rect.left) * canvas.width),
+        y: Math.round((e.clientY - rect.top) / (rect.bottom - rect.top) * -canvas.height)
+      };
+    }
+
+    function update_n() {
+      data = document.getElementById('n').value;
+      n = parseInt(data);
+      if (isNaN(n))
+        n = 1;
+      //alert(data);
+    }
+  </script>
+
+
+</head>
+
+
+<body onload="webGLStart();">
+  <canvas id="wegl-canvas" style="border: none;" width="1200" height="900"></canvas>
+
+  <br />
+
+  <label for="input_n"> cell width</label> <input type="text" id="n" onkeyup="update_n()"><br>
+
+</body>
+
+</html>
