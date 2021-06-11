@@ -201,24 +201,24 @@
 
     function onWheel(e) {
       if (e.deltaY < 0) {
-        size *= 2;
+        size *= 1.2;
         /*let CurPos = { x: MinPos.x * (1 - PagePos.x) + MaxPos.x * PagePos.x, y: MinPos.y * (1 - PagePos.y) + MaxPos.y * PagePos.y };
         console.log(PagePos, CurPos, MinPos, MaxPos);*/
         let MousePos = { x: PagePos.x, y: 1.0 - PagePos.y };
         let CurPos = { x: (MinPos.x * (1 - MousePos.x) + MaxPos.x * MousePos.x), y: (MinPos.y * (1 - MousePos.y) + MaxPos.y * MousePos.y) };
         console.log(MousePos, CurPos);
-        MinPos = { x: CurPos.x + (MinPos.x - CurPos.x) / 2, y: CurPos.y + (MinPos.y - CurPos.y) / 2 };
-        MaxPos = { x: CurPos.x + (MaxPos.x - CurPos.x) / 2, y: CurPos.y + (MaxPos.y - CurPos.y) / 2 };
+        MinPos = { x: CurPos.x + (MinPos.x - CurPos.x) / 1.2, y: CurPos.y + (MinPos.y - CurPos.y) / 1.2 };
+        MaxPos = { x: CurPos.x + (MaxPos.x - CurPos.x) / 1.2, y: CurPos.y + (MaxPos.y - CurPos.y) / 1.2 };
       }
       if (e.deltaY > 0) {
-        size /= 2;
+        size /= 1.2;
         /*let CurPos = { x: MinPos.x * (1 - PagePos.x) + MaxPos.x * PagePos.x, y: MinPos.y * (1 - PagePos.y) + MaxPos.y * PagePos.y };
         console.log(PagePos, CurPos, MinPos, MaxPos);*/
         let MousePos = { x: PagePos.x, y: 1.0 - PagePos.y };
         let CurPos = { x: (MinPos.x * (1 - MousePos.x) + MaxPos.x * MousePos.x), y: (MinPos.y * (1 - MousePos.y) + MaxPos.y * MousePos.y) };
         console.log(MousePos, CurPos);
-        MinPos = { x: CurPos.x + (MinPos.x - CurPos.x) * 2, y: CurPos.y + (MinPos.y - CurPos.y) * 2 };
-        MaxPos = { x: CurPos.x + (MaxPos.x - CurPos.x) * 2, y: CurPos.y + (MaxPos.y - CurPos.y) * 2 };
+        MinPos = { x: CurPos.x + (MinPos.x - CurPos.x) * 1.2, y: CurPos.y + (MinPos.y - CurPos.y) * 1.2 };
+        MaxPos = { x: CurPos.x + (MaxPos.x - CurPos.x) * 1.2, y: CurPos.y + (MaxPos.y - CurPos.y) * 1.2 };
       }
     }
 
