@@ -50,18 +50,11 @@
     async function initShaders() {
       let frag_prm = fetch("https://fedottt-bo.github.io/Mondelbrot/Frag.gles");
       let frag_text = await frag_prm.text();
-      //let response_ve = await fetch("https://fedottt-bo.github.io/Mondelbrot/Vert.gles");
+      let vert_prm = fetch("https://fedottt-bo.github.io/Mondelbrot/Vert.gles");
+      let vert_text = await vert_prm.text();
 
-      var fragmentShader = getShader(gl, frag_txt, "x-shader/x-fragment");
-      /*if (response_ve.ok) {
-        var vertexShader = getShader(gl, response_ve.text(), "x-shader/x-vertex");
-      }*/
-
-      /*Promise.all([fetch("https://fedottt-bo.github.io/Mondelbrot/Frag.gles"), fetch("https://fedottt-bo.github.io/Mondelbrot/Vert.gles")])
-        .then(values => { frag_txt = values[0].text(); vert_txt = values[1].text(); });*/
-
-      /*var fragmentShader = getShader(gl, frag_txt, "x-shader/x-fragment");
-      var vertexShader = getShader(gl, vert_txt, "x-shader/x-vertex");*/
+      var fragmentShader = getShader(gl, frag_text, "x-shader/x-fragment");
+      var vertexShader = getShader(gl, vert_text, "x-shader/x-vertex");
 
       shaderProgram = gl.createProgram();
       gl.attachShader(shaderProgram, vertexShader);
