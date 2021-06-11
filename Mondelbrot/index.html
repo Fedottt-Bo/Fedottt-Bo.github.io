@@ -76,8 +76,6 @@
       shaderProgram.MinPos = gl.getUniformLocation(shaderProgram, "MinPos");
       shaderProgram.MaxPos = gl.getUniformLocation(shaderProgram, "MaxPos");
       shaderProgram.Size = gl.getUniformLocation(shaderProgram, "Size");
-
-      IsInitComplete = true;
     }
 
 
@@ -159,11 +157,7 @@
 
       canvas = document.getElementById("wegl-canvas");
       initGL(canvas);
-      var IsInitComplete = false;
       initShaders();
-      while (!IsInitComplete) {
-        ;
-      }
       initBuffers();
       canvas.addEventListener("mousedown", onMouseDown);
       canvas.addEventListener("mouseup", onMouseUp);
