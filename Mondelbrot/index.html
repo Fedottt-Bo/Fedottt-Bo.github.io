@@ -51,7 +51,8 @@
       var frag_txt = null;
       var vert_txt = null;
 
-      Promise.all([fetch("./Frag.gles"), fetch("./Vert.gles")]).then(values => { frag_txt = values[0]; vert_txt = values[1] });
+      Promise.all([fetch("https://fedottt-bo.github.io/Mondelbrot/Frag.gles"), fetch("https://fedottt-bo.github.io/Mondelbrot/Vert.gles")])
+        .then(values => { frag_txt = values[0]; vert_txt = values[1]; });
 
       var fragmentShader = getShader(gl, frag_txt, "x-shader/x-fragment");
       var vertexShader = getShader(gl, vert_txt, "x-shader/x-vertex");
