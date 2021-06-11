@@ -45,13 +45,13 @@
       return shader;
     }
 
-    var shaderProgram;
+    var shaderProgram = null;
 
-    async function initShaders() {
-      let frag_prm = await fetch("https://fedottt-bo.github.io/Mondelbrot/Frag.gles");
-      let frag_text = await frag_prm.text();
-      let vert_prm = await fetch("https://fedottt-bo.github.io/Mondelbrot/Vert.gles");
-      let vert_text = await vert_prm.text();
+    function initShaders() {
+      let frag_prm = fetch("https://fedottt-bo.github.io/Mondelbrot/Frag.gles").then(res => alert(res.text()));
+      //var frag_text = frag_prm.text();
+      /*let vert_prm = await fetch("https://fedottt-bo.github.io/Mondelbrot/Vert.gles");
+      var vert_text = await vert_prm.text();*/
 
       var fragmentShader = getShader(gl, frag_text, "x-shader/x-fragment");
       var vertexShader = getShader(gl, vert_text, "x-shader/x-vertex");
