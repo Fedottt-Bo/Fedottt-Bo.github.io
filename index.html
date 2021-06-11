@@ -250,12 +250,14 @@
     function onWheel(e) {
       if (e.deltaY < 0) {
         size *= 1.05;
+        console.log(PagePos);
         Pos = { x: Pos.x + 2.0 * PagePos.x / size, y: Pos.y + 2.0 * PagePos.y / size };
         /*Pos.x -= PagePos.x / size / 2.0;
         Pos.y += PagePos.y / size / 2.0;*/
       }
       if (e.deltaY > 0) {
         size /= 1.05;
+        console.log(PagePos);
         Pos = { x: Pos.x + 2.0 * PagePos.x / size, y: Pos.y + 2.0 * PagePos.y / size };
         /*Pos.x += PagePos.x / size / 2.0;
         Pos.y -= PagePos.y / size / 2.0;*/
