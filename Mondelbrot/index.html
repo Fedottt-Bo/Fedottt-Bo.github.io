@@ -48,10 +48,11 @@
     var shaderProgram;
 
     function initShaders() {
-      let frag_txt = fetch("https://fedottt-bo.github.io/Mondelbrot/Frag.gles").then(res => { return res.text() });
+      let frag_prm = fetch("https://fedottt-bo.github.io/Mondelbrot/Frag.gles");
+      let frag_text = await frag_prm.text();
       //let response_ve = await fetch("https://fedottt-bo.github.io/Mondelbrot/Vert.gles");
 
-      var fragmentShader = getShader(gl, frag_txt.text(), "x-shader/x-fragment");
+      var fragmentShader = getShader(gl, frag_txt, "x-shader/x-fragment");
       /*if (response_ve.ok) {
         var vertexShader = getShader(gl, response_ve.text(), "x-shader/x-vertex");
       }*/
