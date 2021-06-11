@@ -48,8 +48,13 @@
     var shaderProgram;
 
     function initShaders() {
-      var fragmentShader = getShader(gl, fetch(".\Frag.gles").then(response => response.text()), "x-shader/x-fragment");
-      var vertexShader = getShader(gl, fetch(".\Vert.gles").then(response => response.text()), "x-shader/x-vertex");
+      var frag_txt = null;
+      var vert_txt = null;
+
+      Promise.all(fetch(".\Frag.gles"), fetch(".\Vert.gles")).then(Res => frag_txt = Res[0], vert_txt = Res[1]);
+
+      var fragmentShader = getShader(gl, frag_txt, "x-shader/x-fragment");
+      var vertexShader = getShader(gl, vert_txt, "x-shader/x-vertex");
 
       shaderProgram = gl.createProgram();
       gl.attachShader(shaderProgram, vertexShader);
