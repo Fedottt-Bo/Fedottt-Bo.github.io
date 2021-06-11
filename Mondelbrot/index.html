@@ -204,7 +204,7 @@
         size *= 2;
         /*let CurPos = { x: MinPos.x * (1 - PagePos.x) + MaxPos.x * PagePos.x, y: MinPos.y * (1 - PagePos.y) + MaxPos.y * PagePos.y };
         console.log(PagePos, CurPos, MinPos, MaxPos);*/
-        let MousePos = { x: PagePos.x, y: -PagePos.y };
+        let MousePos = { x: PagePos.x, y: 1.0 - PagePos.y };
         console.log(MousePos);
         let CurPos = { x: (MinPos.x + MaxPos.x) / 2, y: (MinPos.y + MaxPos.y) / 2 };
         MinPos = { x: CurPos.x + (MinPos.x - CurPos.x) / 2, y: CurPos.y + (MinPos.y - CurPos.y) / 2 };
@@ -214,7 +214,7 @@
         size /= 2;
         /*let CurPos = { x: MinPos.x * (1 - PagePos.x) + MaxPos.x * PagePos.x, y: MinPos.y * (1 - PagePos.y) + MaxPos.y * PagePos.y };
         console.log(PagePos, CurPos, MinPos, MaxPos);*/
-        let MousePos = { x: PagePos.x, y: -PagePos.y };
+        let MousePos = { x: PagePos.x, y: 1.0 - PagePos.y };
         console.log(MousePos);
         let CurPos = { x: (MinPos.x + MaxPos.x) / 2, y: (MinPos.y + MaxPos.y) / 2 };
         MinPos = { x: CurPos.x + (MinPos.x - CurPos.x) * 2, y: CurPos.y + (MinPos.y - CurPos.y) * 2 };
