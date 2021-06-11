@@ -49,7 +49,7 @@
 
     function initShaders() {
       alert("1");
-      let frag_prm = fetch("https://fedottt-bo.github.io/Mondelbrot/Frag.gles").text().then(res => alert(res));
+      let frag_prm = fetch("https://fedottt-bo.github.io/Mondelbrot/Frag.gles").then(res => res.text().then(res => alert(res)));
       alert("2");
       //var frag_text = frag_prm.text();
       /*let vert_prm = await fetch("https://fedottt-bo.github.io/Mondelbrot/Vert.gles");
