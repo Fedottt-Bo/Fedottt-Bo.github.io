@@ -53,8 +53,8 @@
       frag_prm = fetch("https://fedottt-bo.github.io/Mondelbrot/Frag.gles").then(res => { return res.text() });
       vert_prm = fetch("https://fedottt-bo.github.io/Mondelbrot/Vert.gles").then(res => { return res.text() });
 
-      var fragmentShader = getShader(gl, frag_text, "x-shader/x-fragment");
-      var vertexShader = getShader(gl, vert_text, "x-shader/x-vertex");
+      var fragmentShader = getShader(gl, frag_prm, "x-shader/x-fragment");
+      var vertexShader = getShader(gl, vert_prm, "x-shader/x-vertex");
 
       shaderProgram = gl.createProgram();
       gl.attachShader(shaderProgram, vertexShader);
