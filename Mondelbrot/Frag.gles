@@ -31,9 +31,7 @@ float Mondel(vec2 Z)
     n += 1.0;
   }
 
-  n += 1.0;
-
-  n *= MaxN / 256.0;
+  n *= 256.0 / MaxN;
 
   return n;
 }
