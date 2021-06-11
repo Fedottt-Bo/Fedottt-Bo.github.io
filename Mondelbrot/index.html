@@ -53,29 +53,31 @@
       frag_prm = fetch("https://fedottt-bo.github.io/Mondelbrot/Frag.gles").then(res => { return res.text() });
       vert_prm = fetch("https://fedottt-bo.github.io/Mondelbrot/Vert.gles").then(res => { return res.text() });
 
-      var fragmentShader = getShader(gl, frag_prm, "x-shader/x-fragment");
-      var vertexShader = getShader(gl, vert_prm, "x-shader/x-vertex");
+      frag_prm.then(text => { fragmentShader = getShader(gl, text, "x-shader/x-fragment"); });
+      vert_prm.then(text => { vertexShader = getShader(gl, text, "x-shader/x-vertex"); });
 
-      shaderProgram = gl.createProgram();
-      gl.attachShader(shaderProgram, vertexShader);
-      gl.attachShader(shaderProgram, fragmentShader);
-      gl.linkProgram(shaderProgram);
+      Promise.all(frag_prm, vert_prm).then(unused => {
+        shaderProgram = gl.createProgram();
+        gl.attachShader(shaderProgram, vertexShader);
+        gl.attachShader(shaderProgram, fragmentShader);
+        gl.linkProgram(shaderProgram);
 
-      if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
-        alert("Could not initialise shaders");
-      }
+        if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
+          alert("Could not initialise shaders");
+        }
 
-      gl.useProgram(shaderProgram);
+        gl.useProgram(shaderProgram);
 
-      shaderProgram.vertexPositionAttribute = gl.getAttribLocation(shaderProgram, "aVertexPosition");
-      gl.enableVertexAttribArray(shaderProgram.vertexPositionAttribute);
+        shaderProgram.vertexPositionAttribute = gl.getAttribLocation(shaderProgram, "aVertexPosition");
+        gl.enableVertexAttribArray(shaderProgram.vertexPositionAttribute);
 
-      shaderProgram.pMatrixUniform = gl.getUniformLocation(shaderProgram, "uPMatrix");
-      shaderProgram.mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
-      shaderProgram.n = gl.getUniformLocation(shaderProgram, "MaxN");
-      shaderProgram.MinPos = gl.getUniformLocation(shaderProgram, "MinPos");
-      shaderProgram.MaxPos = gl.getUniformLocation(shaderProgram, "MaxPos");
-      shaderProgram.Size = gl.getUniformLocation(shaderProgram, "Size");
+        shaderProgram.pMatrixUniform = gl.getUniformLocation(shaderProgram, "uPMatrix");
+        shaderProgram.mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
+        shaderProgram.n = gl.getUniformLocation(shaderProgram, "MaxN");
+        shaderProgram.MinPos = gl.getUniformLocation(shaderProgram, "MinPos");
+        shaderProgram.MaxPos = gl.getUniformLocation(shaderProgram, "MaxPos");
+        shaderProgram.Size = gl.getUniformLocation(shaderProgram, "Size");
+      });
     }
 
 
