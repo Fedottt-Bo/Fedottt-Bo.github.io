@@ -136,7 +136,8 @@
     var mvMatrix = mat4.create();
     var pMatrix = mat4.create();
     var n = 256.0;
-    var Pos = { x: 0, y: 0 };
+    var MinPos = { x: -2.0, y: -2.0 };
+    var MaxPos = { x: 2.0, y: 2.0 };
     var NewPos = { x: 0, y: 0 };
     var PrevPos = { x: 0, y: 0 };
     var DeltaPos = { x: 0, y: 0 };
@@ -145,13 +146,11 @@
     var PagePos = { x: 0, y: 0 };
 
     function setMatrixUniforms() {
-      let CurPos = { x: (Pos.x + DeltaPos.x), y: (Pos.y + DeltaPos.y) }
-
       gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix);
       gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, mvMatrix);
       gl.uniform1f(shaderProgram.n, n > 4096 ? 4096 : n);
-      gl.uniform2f(shaderProgram.MinPos, CurPos.x - 2.0 / size, CurPos.y - 2.0 / size);
-      gl.uniform2f(shaderProgram.MaxPos, CurPos.x + 2.0 / size, CurPos.y + 2.0 / size);
+      gl.uniform2f(shaderProgram.MinPos, MinPos.x, MinPos.y);
+      gl.uniform2f(shaderProgram.MaxPos, MaxPos.x, MaxPos.y);
       gl.uniform1f(shaderProgram.Size, size);
     }
 
@@ -232,12 +231,14 @@
     }
 
     function MouseMove(e) {
-      PagePos = { x: (e.clientX - canvas.offsetLeft) / (canvas.width / 2.0) - 1.0, y: (e.clientY - canvas.offsetTop) / (canvas.height / 2.0) - 1.0 };
+      PagePos = { x: (e.clientX - canvas.offsetLeft) / canvas.width, y: (e.clientY - canvas.offsetTop) / canvas.height };
       if (!ButtonPressed)
         return;
       NewPos = getMousePos(canvas, e);
-      Pos.x += (NewPos.x - PrevPos.x) / size * -0.0045;
-      Pos.y += (NewPos.y - PrevPos.y) / size * -0.0045;
+      MinPos.x += (NewPos.x - PrevPos.x) / size * -0.0045;
+      MaxPos.x += (NewPos.x - PrevPos.x) / size * -0.0045;
+      MinPos.y += (NewPos.y - PrevPos.y) / size * 0.0045;
+      MaxPos.y += (NewPos.y - PrevPos.y) / size * 0.0045;
       PrevPos = NewPos;
     }
 
@@ -249,18 +250,18 @@
 
     function onWheel(e) {
       if (e.deltaY < 0) {
-        size *= 1.05;
-        console.log(PagePos, { x: PagePos.x / size, y: PagePos.y / size });
-        Pos = { x: Pos.x + 1.0 * PagePos.x / size, y: Pos.y - 1.0 * PagePos.y / size };
-        /*Pos.x -= PagePos.x / size / 2.0;
-        Pos.y += PagePos.y / size / 2.0;*/
+        size *= 1.1;
+        let CurPos = { x: MinPos.x * (1 - PagePos.x) + MaxPos.x * PagePos.x, y: MinPos.y * (PagePos.y - 1) + MaxPos.y * -PagePos.y };
+        console.log(PagePos, CurPos);
+        MinPos = { x: CurPos.x - (CurPos.x - MinPos.x) / 1.1, y: CurPos.y - (CurPos.y - MinPos.y) / 1.1 };
+        MaxPos = { x: CurPos.x - (CurPos.x - MaxPos.x) / 1.1, y: CurPos.y - (CurPos.y - MaxPos.y) / 1.1 };
       }
       if (e.deltaY > 0) {
-        size /= 1.05;
-        console.log(PagePos);
-        Pos = { x: Pos.x - 1.0 * PagePos.x / size, y: Pos.y + 1.0 * PagePos.y / size };
-        /*Pos.x += PagePos.x / size / 2.0;
-        Pos.y -= PagePos.y / size / 2.0;*/
+        size /= 1.1;
+        let CurPos = { x: MinPos.x * (1 - PagePos.x) + MaxPos.x * PagePos.x, y: MinPos.y * (PagePos.y - 1) + MaxPos.y * -PagePos.y };
+        console.log(PagePos, CurPos);
+        MinPos = { x: CurPos.x - (CurPos.x - MinPos.x) * 1.1, y: CurPos.y - (CurPos.y - MinPos.y) * 1.1 };
+        MaxPos = { x: CurPos.x - (CurPos.x - MaxPos.x) * 1.1, y: CurPos.y - (CurPos.y - MaxPos.y) * 1.1 };
       }
     }
 
@@ -268,7 +269,7 @@
       var rect = canvas.getBoundingClientRect();
       return {
         x: Math.round((e.clientX - rect.left) / (rect.right - rect.left) * canvas.width),
-        y: Math.round((e.clientY - rect.top) / (rect.bottom - rect.top) * -canvas.height)
+        y: Math.round((e.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height)
       };
     }
 
