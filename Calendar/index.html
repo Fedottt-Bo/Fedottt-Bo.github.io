@@ -17,10 +17,10 @@
       Year = CurDate.getFullYear();
       Month = CurDate.getMonth() + 1;
       CurDate = new Date(Year, Month, CurDate.getDate());
-      TestFunc();
+      UpdateTable();
     }
 
-    function TestFunc() {
+    function UpdateTable() {
       let j = 0;
       let Year_tmp = Year.toString();
       if (Year_tmp.length < 4) {
@@ -91,6 +91,9 @@
           Year += 1;
         }
       }
+      if (n != 0) {
+        UpdateTable();
+      }
     }
   </script>
 </head>
@@ -110,7 +113,7 @@
   </div>
 
   <button id="TextBut" onclick="ChangeMonth(-1);"> Prev </button>
-  <button id="TextBut" onclick="TestFunc();"> Apply date </button>
+  <button id="TextBut" onclick="UpdateTable();"> Apply date </button>
   <button id="TextBut" onclick="ChangeMonth(+1);"> Next </button>
   <br>
   <label for="input_year"> Year &nbsp;</label> <input type="text" id="Year_Input" onkeyup="update_year()"><br>
