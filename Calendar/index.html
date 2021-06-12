@@ -10,6 +10,7 @@
     let Month = 08;
     let CurDate = null;
     let Months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    let Days = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
 
     function DateInit() {
       CurDate = new Date(Date.now());
@@ -30,8 +31,12 @@
       if (delta < 0) {
         delta = 6;
       }
-      let tmp = "<caption>" + Year + "&nbsp &nbsp" + Months[Month] + "</caption>";
+      let tmp = "<caption>" + Year + "&nbsp &nbsp" + Months[Month] + "</caption><tr>";
       let i = 0;
+      while (i < 7) {
+        tmp += "<td>" + Days[i] + "</td>";
+      }
+      i = 0;
       while (i < delta) {
         tmp += "<td></td>";
         i += 1;
