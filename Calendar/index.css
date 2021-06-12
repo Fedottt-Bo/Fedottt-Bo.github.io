@@ -4,10 +4,10 @@
 	border: 1px solid #888888;
 	border-collapse: separate; 
 }
-.Table_class th {
+.Table_class tr {
 	font-weight: bold;
 	padding: 5px;
-	background: #efefef;
+	background: #000000;
 	border: 1px solid #888888;
 }
 .Table_class td {
