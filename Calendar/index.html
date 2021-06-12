@@ -8,9 +8,10 @@
   <script type="text/javascript">
     let Year = 2006;
     let Month = 08;
+    let CurDate = null;
 
     function DateInit() {
-      let CurDate = new Date(Date.now());
+      CurDate = new Date(Date.now());
       Year = CurDate.getFullYear();
       Month = CurDate.getMonth() + 1;
       TestFunc();
@@ -35,7 +36,12 @@
       }
       i = 1;
       while (date.getMonth() < Month) {
-        tmp += '<td bgcolor="#4c78cc">' + i + "</td>";
+        if (date == CurDate) {
+          tmp += '<td bgcolor="#ff0000">' + i + "</td>";
+        }
+        else {
+          tmp += '<td bgcolor="#4c78cc">' + i + "</td>";
+        }
         if (date.getDay() == 0) {
           tmp += "</tr><tr>";
         }
