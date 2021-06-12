@@ -3,6 +3,7 @@
   border-collapse: separate; 
   empty-cells: hide;
   background-color: #F0E68C;
+  transition: font-size 3s, color 2s;
 }
 .Table_class tr {
   font-weight: bold;
