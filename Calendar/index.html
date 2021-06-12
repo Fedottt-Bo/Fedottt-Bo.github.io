@@ -14,6 +14,7 @@
       CurDate = new Date(Date.now());
       Year = CurDate.getFullYear();
       Month = CurDate.getMonth() + 1;
+      CurDate = new Date(Year, Month, CurDate.getDate());
       TestFunc();
     }
 
