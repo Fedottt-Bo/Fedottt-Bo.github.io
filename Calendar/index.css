@@ -1,4 +1,16 @@
-.CalendarTable {
-  border: 3px;
-  border-color: blue;
+.Table_class {
+	width: 100%;
+	margin-bottom: 20px;
+	border: 1px solid #888888;
+	border-collapse: collapse; 
+}
+.Table_class th {
+	font-weight: bold;
+	padding: 5px;
+	background: #efefef;
+	border: 1px solid #888888;
+}
+.Table_class td {
+	border: 1px solid #888888;
+	padding: 5px;
 }
