@@ -9,6 +9,7 @@
     let Year = 2006;
     let Month = 08;
     let CurDate = null;
+    let Months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
     function DateInit() {
       CurDate = new Date(Date.now());
@@ -19,7 +20,6 @@
     }
 
     function TestFunc() {
-      let tmp = "";
       let j = 0;
       let Year_tmp = Year.toString();
       if (Year_tmp.length < 4) {
@@ -30,6 +30,7 @@
       if (delta < 0) {
         delta = 6;
       }
+      let tmp = "<caption>" + Year + Months[Month] + "</caption>";
       let i = 0;
       while (i < delta) {
         tmp += "<td></td>";
