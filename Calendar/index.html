@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <title> CSS Calendar </title>
+  <link>
+  <script type="text/javascript">
+    let Year = 2006;
+    let Month = 08;
+
+    function TestFunc() {
+      let tmp = "";
+      let j = 0;
+      let Year_tmp = Year.toString();
+      if (Year_tmp.length < 4) {
+        Year_tmp = "0" * (4 - Year_tmp.length) + Year_tmp;
+      }
+      let date = new Date(Year_tmp, Month - 1);
+      let delta = date.getDay() - 1;
+      if (delta < 0) {
+        delta = 6;
+      }
+      let i = 0;
+      while (i < delta) {
+        tmp += "<td></td>";
+        i += 1;
+      }
+      i = 1;
+      while (date.getMonth() < Month) {
+        tmp += "<td>" + i + "</td>";
+        if (date.getDay() == 0) {
+          tmp += "</tr><tr>";
+        }
+        date.setDate(date.getDate() + 1);
+        i += 1;
+      }
+
+      tmp += "</tr>";
+
+      CalendarTable.innerHTML = tmp;
+    }
+
+    function update_year() {
+      let data = Year_Input.value;
+      let n = parseInt(data);
+      if (!isNaN(n) & n >= 1 & n <= 3030) {
+        Year = n;
+      }
+    }
+    function update_month() {
+      let data = Month_Input.value;
+      let n = parseInt(data);
+      if (!isNaN(n) & n >= 1 & n <= 12) {
+        Month = n;
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <div id="MainObj">
+    <table id="CalendarTable">
+    </table>
+  </div>
+
+  <button id="TextBut" onclick="TestFunc();"> TestBut </button><br>
+  <label for="input_year"> Year &nbsp;</label> <input type="text" id="Year_Input" onkeyup="update_year()"><br>
+  <label for="input_month"> Month</label> <input type="text" id="Month_Input" onkeyup="update_month()"><br>
+</body>
+
+</html>
