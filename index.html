@@ -4,10 +4,48 @@
 
 <head>
     <title> Start page </title>
+    <style>
+        .Main {
+            background-color: aquamarine;
+            height: 100vh;
+            margin-left: 75px;
+            width: max-content;
+            padding: 5px;
+            width: 470px;
+            border-radius: 15px;
+        }
+
+        .Hrefs {
+            margin-left: 15px;
+        }
+
+        .Handle {
+            margin-top: 20px;
+            color: #10009c;
+            font-size: 32px;
+        }
+
+        .Main img {
+            position: absolute;
+            left: 90px;
+            bottom: 0px;
+        }
+    </style>
 </head>
 
-<body>
-    <a href="https://fedottt-bo.github.io/Mondelbrot/"> Mondelbrot </a>
+<body class="Body">
+    <div id="Main" class="Main">
+        <span class="Handle">FB1 projects</span><br>
+        <ul>
+            <li>
+                <a href="https://fedottt-bo.github.io/Mondelbrot/" class="Hrefs"> Mondelbrot </a><br>
+            </li>
+            <li>
+                <a href="https://fedottt-bo.github.io/Calendar/" class="Hrefs"> Calendar </a><br>
+            </li>
+        </ul>
+        <img src="https://python2014.rutsky.org/09_interoperability/_images/cgsg.png" height="100px" width="160px"><br>
+    </div>
 </body>
 
 </html>
