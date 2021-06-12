@@ -46,10 +46,10 @@
       i = 1;
       while (date.getMonth() < Month) {
         if (Year == CurDate.getFullYear() & Month == CurDate.getMonth() & date.getDate() == CurDate.getDate()) {
-          tmp += '<td bgcolor="#ff0000" onload=function() {this.style.fontSize = "36px";this.style.color = "red";};>' + i + "</td>";
+          tmp += `<td bgcolor="#ff0000">` + i + "</td>";
         }
         else {
-          tmp += '<td bgcolor="#4c78cc" onload=function() {this.style.fontSize = "36px";this.style.color = "red";};>' + i + "</td>";
+          tmp += `<td bgcolor="#000000" id="Numtd">` + i + "</td>";
         }
         if (date.getDay() == 0) {
           tmp += "</tr><tr>";
@@ -59,10 +59,8 @@
       }
 
       tmp += "</tr>";
-
+      Numtd.bgcolor = "#4c78cc";
       CalendarTable.innerHTML = tmp;
-      CalendarTable.classList.remove("Table_class");
-      CalendarTable.classList.add("Table_class");
     }
 
     function update_year() {
@@ -82,7 +80,7 @@
   </script>
 </head>
 
-<body onload="DateInit();">
+<body onload="DateInit();" class="Table_class">
   <div id="MainObj">
     <table id="CalendarTable">
       <tr>

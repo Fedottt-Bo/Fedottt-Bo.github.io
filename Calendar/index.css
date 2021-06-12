@@ -3,12 +3,12 @@
   border-collapse: separate; 
   empty-cells: hide;
   background-color: #F0E68C;
-  transition: font-size 3s, color 2s;
 }
 .Table_class tr {
   font-weight: bold;
   padding: 3px;
-  border: 2px groove #FFD700; 
+  border: 2px groove #FFD700;
+  transition: all 5s;
 }
 .Table_class td {
   border: 1px solid #888888;
