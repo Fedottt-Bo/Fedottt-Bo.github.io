@@ -49,7 +49,7 @@
           tmp += `<td bgcolor="#ff0000">` + i + "</td>";
         }
         else {
-          tmp += `<td bgcolor="#000000" id="Numtd">` + i + "</td>";
+          tmp += `<td bgcolor="#4c78cc" id="Numtd">` + i + "</td>";
         }
         if (date.getDay() == 0) {
           tmp += "</tr><tr>";
@@ -60,7 +60,6 @@
 
       tmp += "</tr>";
       CalendarTable.innerHTML = tmp;
-      document.getElementById("Numtd").bgcolor = "#4c78cc";
     }
 
     function update_year() {
