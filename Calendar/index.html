@@ -61,8 +61,8 @@
       tmp += "</tr>";
 
       CalendarTable.innerHTML = tmp;
-      CalendarTable.class = "";
-      CalendarTable.class = "Table_class";
+      CalendarTable.classList.remove("Table_class");
+      CalendarTable.classList.add("Table_class");
     }
 
     function update_year() {
