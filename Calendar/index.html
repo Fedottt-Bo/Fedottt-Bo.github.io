@@ -37,7 +37,7 @@
       }
       i = 1;
       while (date.getMonth() < Month) {
-        if (date === CurDate) {
+        if (Year == CurDate.getFullYear() & Month == CurDate.getMonth() & date.getDate() == CurDate.getDate()) {
           tmp += '<td bgcolor="#ff0000">' + i + "</td>";
         }
         else {
