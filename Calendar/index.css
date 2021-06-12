@@ -1,15 +1,15 @@
 .Table_class {
-	margin-bottom: 20px;
-	border-collapse: separate; 
+  margin-bottom: 20px;
+  border-collapse: separate; 
   empty-cells: hide;
-  background: #4c78cc;
+  background: #4c77e4;
 }
 .Table_class tr {
-	font-weight: bold;
-	padding: 3px;
-	border: 2px groove #FFD700;
+  font-weight: bold;
+  padding: 3px;
+  border: 2px groove #FFD700;
 }
 .Table_class td {
-	border: 1px solid #888888;
-	padding: 5px;
+  border: 1px solid #888888;
+  padding: 5px;
 }
