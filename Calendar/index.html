@@ -61,6 +61,7 @@
       tmp += "</tr>";
 
       CalendarTable.innerHTML = tmp;
+      CalendarTable.class = "";
       CalendarTable.class = "Table_class";
     }
 
@@ -83,7 +84,7 @@
 
 <body onload="DateInit();">
   <div id="MainObj">
-    <table id="CalendarTable" class="Table_class">
+    <table id="CalendarTable">
       <tr>
         <td> 1 </td>
         <td> 2 </td>
