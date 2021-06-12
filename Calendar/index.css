@@ -2,12 +2,12 @@
   margin-bottom: 20px;
   border-collapse: separate; 
   empty-cells: hide;
-  background-color: #8080ff;
+  background-color: #F0E68C;
 }
 .Table_class tr {
   font-weight: bold;
   padding: 3px;
-  border: 2px groove #FFD700;
+  border: 2px groove #FFD700; 
 }
 .Table_class td {
   border: 1px solid #888888;
