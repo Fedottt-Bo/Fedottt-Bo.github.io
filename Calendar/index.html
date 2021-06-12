@@ -6,8 +6,8 @@
   <title> CSS Calendar </title>
   <link href="https://fedottt-bo.github.io/Calendar/index.css" rel="stylesheet">
   <script type="text/javascript">
-    let Year = 2006;
-    let Month = 08;
+    var Year = 2021;
+    var Month = 6;
     let CurDate = null;
     let Months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     let Days = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
@@ -31,7 +31,7 @@
       if (delta < 0) {
         delta = 6;
       }
-      let tmp = "<caption>" + Year + "&nbsp &nbsp" + Months[Month] + "</caption><tr>";
+      let tmp = "<caption>" + Year + "&nbsp &nbsp" + Months[Month - 1] + "</caption><tr>";
       let i = 0;
       while (i < 7) {
         tmp += "<td>" + Days[i] + "</td>";
@@ -76,6 +76,22 @@
         Month = n;
       }
     }
+
+    function ChangeMonth(n) {
+      Month += n;
+      if (Month <= 0) {
+        Month = 12;
+        if (Year > 1) {
+          Year -= 1;
+        }
+      }
+      if (Month > 12) {
+        Month = 0;
+        if (Year < 3030) {
+          Year += 1;
+        }
+      }
+    }
   </script>
 </head>
 
@@ -93,7 +109,10 @@
     </table>
   </div>
 
-  <button id="TextBut" onclick="TestFunc();"> TestBut </button><br>
+  <button id="TextBut" onclick="ChangeMonth(-1);"> Prev </button>
+  <button id="TextBut" onclick="TestFunc();"> Apply date </button>
+  <button id="TextBut" onclick="ChangeMonth(+1);"> Next </button>
+  <br>
   <label for="input_year"> Year &nbsp;</label> <input type="text" id="Year_Input" onkeyup="update_year()"><br>
   <label for="input_month"> Month</label> <input type="text" id="Month_Input" onkeyup="update_month()"><br>
 </body>
