@@ -46,10 +46,10 @@
       i = 1;
       while (date.getMonth() < Month) {
         if (Year == CurDate.getFullYear() & Month == CurDate.getMonth() & date.getDate() == CurDate.getDate()) {
-          tmp += '<td bgcolor="#ff0000">' + i + "</td>";
+          tmp += '<td bgcolor="#ff0000" onload=function() {this.style.fontSize = "36px";this.style.color = "red";};>' + i + "</td>";
         }
         else {
-          tmp += '<td bgcolor="#4c78cc">' + i + "</td>";
+          tmp += '<td bgcolor="#4c78cc" onload=function() {this.style.fontSize = "36px";this.style.color = "red";};>' + i + "</td>";
         }
         if (date.getDay() == 0) {
           tmp += "</tr><tr>";
