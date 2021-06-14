@@ -9,8 +9,8 @@
 
         async function TextInput() {
             txt = await fetch(url).then(res => { return res.text() });
-            Solve();
             alert(txt);
+            Solve();
         }
 
         function Solve() {
@@ -33,7 +33,7 @@
                 i += 1;
             }
 
-            alert(Arr, N, K, tmp1, tmp2);
+            tmp2.forEach(val, i => { if (val == 1) { alert(tmp1[i]) } });
         }
 
         function update_url() {
