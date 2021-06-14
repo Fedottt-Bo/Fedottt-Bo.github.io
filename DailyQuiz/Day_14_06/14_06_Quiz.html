@@ -9,11 +9,12 @@
 
         async function TextInput() {
             txt = await fetch(url).then(res => { return res.text() });
+            Solve();
             alert(txt);
         }
 
-        async function Solve() {
-
+        function Solve() {
+            alert(txt.split('\n'));
         }
 
         function update_url() {
