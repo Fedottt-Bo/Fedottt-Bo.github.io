@@ -5,23 +5,39 @@
     <title>Sample hosted HTML</title>
     <link rel="stylesheet" href="styles.css">
     <script type="text/javascript">
-        function Send() {
-            let tmp = { name: "Fedor", surname: "Bor" };
+        let UserName = "FB1";
+        let message = null;
 
-            let response = fetch('localhost:8000/TestSend', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json;charset=utf-8'
-                },
-                body: JSON.stringify(tmp),
-            });
+        function Send() {
+            let time = 30;
+            let tmp = "/Msg?" + "name=" + UserName + "&time=" + time + "&text=" + message;
+            let response = fetch(tmp, { method: 'POST' });
         };
+
+        async function Get() {
+            let data = await fetch("/Update", { method: 'GET' }).then(res => { return res.text() });
+            data = data.split('\n');
+            let tmp = "";
+            data.forEach(function (val) { tmp += val + "<br>" });
+            TextField.innerHTML = tmp;
+        };
+
+        function update_name() {
+            UserName = Name.value;
+        }
+        function update_msg() {
+            message = Msg.value;
+        }
     </script>
 </head>
 
-<body onload="Send();">
+<body>
     <div>
-        <button id="SendButton" onclick="Send();"> TestButton) </button>
+        <button id="SendButton" onclick="Send();"> Send Message </button><br>
+        <button id="GetButton" onclick="Get();"> Get messages </button><br>
+        <label for="input_year"> UserName </label> <input type="text" id="Name" onkeyup="update_name()"><br>
+        <label for="input_month"> Message </label> <input type="text" id="Msg" onkeyup="update_msg()"><br>
+        <span id="TextField"> No messages were loaded </span>
     </div>
 </body>
 
