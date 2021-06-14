@@ -20,6 +20,9 @@ const requestListener = function (req, res) {
         fileName = "index.html";
         contentType = "text/html";
     }
+    if (req.url === "/TestSend") {
+        console.log(res);
+    }
     else if (req.url.endsWith(".css")) {
         fileName = req.url.substr(1);
         contentType = "text/css";

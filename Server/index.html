@@ -4,11 +4,27 @@
     <meta charset="UTF_8" />
     <title>Sample hosted HTML</title>
     <link rel="stylesheet" href="styles.css">
+    <script type="text/javascript">
+        function Send() {
+            let tmp = {
+                name: "Fedor",
+                surname: "Bor"
+            };
+
+            let response = await fetch('/TestSend', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify(tmp)
+            });
+        }
+    </script>
 </head>
 
 <body>
     <div class="center">
-        <p>This HTML is served from a file</p>
+        <button onclick=""> TestButton) </button>
     </div>
 </body>
 
