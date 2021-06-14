@@ -6,25 +6,22 @@
     <link rel="stylesheet" href="styles.css">
     <script type="text/javascript">
         function Send() {
-            let tmp = {
-                name: "Fedor",
-                surname: "Bor"
-            };
+            let tmp = { name: "Fedor", surname: "Bor" };
 
-            let response = await fetch('/TestSend', {
+            let response = fetch('localhost:8000/TestSend', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json;charset=utf-8'
                 },
-                body: JSON.stringify(tmp)
+                body: JSON.stringify(tmp),
             });
-        }
+        };
     </script>
 </head>
 
-<body>
-    <div class="center">
-        <button onclick=""> TestButton) </button>
+<body onload="Send();">
+    <div>
+        <button id="SendButton" onclick="Send();"> TestButton) </button>
     </div>
 </body>
 
