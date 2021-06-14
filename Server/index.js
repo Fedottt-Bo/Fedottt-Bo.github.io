@@ -28,6 +28,7 @@ const requestListener = function (req, res) {
                 console.log(err);
             }
             res.end();
+            return;
         })
     }
     else if (req.method === 'GET') {
@@ -49,19 +50,19 @@ const requestListener = function (req, res) {
             res.end("Error, unsupported");
             return;
         }
-    }
 
-    fs.readFile(`${__dirname}/${fileName}`)
-        .then(contents => {
-            res.setHeader("Content-Type", contentType);
-            res.writeHead(200);
-            res.end(contents);
-        })
-        .catch(err => {
-            res.writeHead(500);
-            res.end(err);
-            return;
-        });
+        fs.readFile(`${__dirname}/${fileName}`)
+            .then(contents => {
+                res.setHeader("Content-Type", contentType);
+                res.writeHead(200);
+                res.end(contents);
+            })
+            .catch(err => {
+                res.writeHead(500);
+                res.end(err);
+                return;
+            });
+    }
 };
 
 function GenMessageList() {
