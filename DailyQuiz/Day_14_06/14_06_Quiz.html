@@ -22,9 +22,9 @@
             let i = 0;
 
             while (i < N) {
-                let j = tmp1.indexOf(Arr[i]);
+                let j = tmp1.indexOf(Arr[i + 1]);
                 if (j == -1) {
-                    tmp1.push(Arr[i]);
+                    tmp1.push(Arr[i + 1]);
                     tmp2.push(1);
                 }
                 else {
