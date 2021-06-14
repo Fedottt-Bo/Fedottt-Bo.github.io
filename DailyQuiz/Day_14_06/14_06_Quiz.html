@@ -32,8 +32,11 @@
                 }
                 i += 1;
             }
+            let res = [];
 
-            tmp2.forEach(function (val, i) { if (val == 1) { alert(tmp1[i]) } });
+            tmp2.forEach(function (val, i) { if (val == 1) { res.push(tmp1[i]) } });
+
+            Output.innerHTML = "Answer: " + res[0] + " " + res[1];
         }
 
         function update_url() {
