@@ -10,8 +10,9 @@
 
         function Send() {
             let time = 30;
-            let tmp = "/Msg?" + "name=" + UserName + "&time=" + time + "&text=" + message;
-            let response = fetch(tmp, { method: 'POST' });
+            let tmp = { name: UserName, time: time, text: message };
+            tmp = JSON.stringify(tmp);
+            fetch("/", { method: 'POST', body: tmp });
         };
 
         async function Get() {
@@ -22,6 +23,10 @@
             TextField.innerHTML = tmp;
         };
 
+        function GetInit() {
+            var Timer = setInterval(Get, 666);
+        }
+
         function update_name() {
             UserName = Name.value;
         }
@@ -31,7 +36,7 @@
     </script>
 </head>
 
-<body>
+<body onload="GetInit();">
     <div>
         <button id="SendButton" onclick="Send();"> Send Message </button><br>
         <button id="GetButton" onclick="Get();"> Get messages </button><br>

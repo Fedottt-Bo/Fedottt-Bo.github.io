@@ -8,20 +8,27 @@ const port = 8000;
 var messages = [];
 
 const requestListener = function (req, res) {
-    console.log(
+    /*console.log(
         `Request: ${req.method}, ${req.url}`
-    );
+    );*/
 
     let fileName;
     let contentType;
 
     if (req.method === 'POST') {
-        const data = url.parse(req.url, true).query;
-        console.log(data);
-        try {
-            messages.push({ name: data.name, time: data.time, text: data.text });
-        }
-        catch (err) { }
+        let data = "";
+        req.on('data', chunk => {
+            data += chunk;
+        })
+        req.on('end', () => {
+            try {
+                messages.push(JSON.parse(data));
+            }
+            catch (err) {
+                console.log(err);
+            }
+            res.end();
+        })
     }
     else if (req.method === 'GET') {
         if (req.url === "/") {
@@ -67,4 +74,3 @@ const server = http.createServer(requestListener);
 server.listen(port, host, () => {
     console.log(`Server is running on http://${host}:${port}`);
 });
-console.log(messages);
