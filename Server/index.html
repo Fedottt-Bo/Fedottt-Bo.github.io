@@ -38,11 +38,22 @@
 
 <body onload="GetInit();">
     <div>
-        <button id="SendButton" onclick="Send();"> Send Message </button><br>
-        <button id="GetButton" onclick="Get();"> Get messages </button><br>
-        <label for="input_year"> UserName </label> <input type="text" id="Name" onkeyup="update_name()"><br>
-        <label for="input_month"> Message </label> <input type="text" id="Msg" onkeyup="update_msg()"><br>
-        <span id="TextField"> No messages were loaded </span>
+        <button id="SendButton" class="Button" onclick="Send();">
+            <span class="ButtonText"> Send Message </span>
+        </button><br>
+        <button id="GetButton" class="Button" onclick="Get();">
+            <span class="ButtonText"> Get messages</span>
+        </button><br>
+
+        <label for="Name" class="InputLabel"> UserName </label>
+        <input type="text" id="Name" onkeyup="update_name()"><br>
+
+        <label for="Msg" class="InputLabel"> Message </label>
+        <input type="text" id="Msg" onkeyup="update_msg()"><br>
+
+        <div class="MessagesList">
+            <span class="TextField" id="TextField"> No messages were loaded </span>
+        </div>
     </div>
 </body>
 

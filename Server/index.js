@@ -72,6 +72,6 @@ function GenMessageList() {
 }
 
 const server = http.createServer(requestListener);
-server.listen(port, host, () => {
-    console.log(`Server is running on http://${host}:${port}`);
-});
+server.listen(port);
+
+// http://192.168.30.70:8000
