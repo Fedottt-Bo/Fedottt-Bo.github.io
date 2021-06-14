@@ -5,20 +5,29 @@
 <head>
     <script type="text/javascript">
         let txt = null;
+        let url = null;
 
         async function TextInput() {
-            txt = await fetch();
+            txt = await fetch(url).then(res => { res.text() });
+            alert(txt);
         }
 
         async function Solve() {
 
+        }
+
+        function update_url() {
+            let data = input_url.value;
+            url = data;
         }
     </script>
 </head>
 
 <body>
     <div id="MainPart">
-        <span id="Output">Nothing)</span>
+        <span id="Output">Nothing)</span><br>
+        <label for="input_url"> URL: </label> <input type="text" id="input_url" onkeyup="update_url()"><br>
+        <button id="confirm_url" onclick="TextInput();"> Confirm URL </button><br>
     </div>
 </body>
 
