@@ -8,7 +8,7 @@
         let url = null;
 
         async function TextInput() {
-            txt = await fetch(url).then(res => { res.text() });
+            txt = await fetch(url).then(res => { return res.text() });
             alert(txt);
         }
 
