@@ -1,6 +1,7 @@
 const http = require("http");
 const url = require('url');
 const fs = require('fs').promises;
+const expr = require('express');
 
 const host = 'localhost';
 const port = 8000;
@@ -22,7 +23,10 @@ const requestListener = function (req, res) {
         })
         req.on('end', () => {
             try {
-                messages.push(JSON.parse(data));
+                let msg = JSON.parse(data);
+                let CurDate = new Date(Date.now());
+                let time = `${CurDate.getHours().toString()}:${CurDate.getMinutes().toString()}:${CurDate.getSeconds().toString()}`;
+                messages.push({ name: msg.name, time: time, text: msg.text });
             }
             catch (err) {
                 console.log(err);
@@ -35,6 +39,14 @@ const requestListener = function (req, res) {
         if (req.url === "/") {
             fileName = "index.html";
             contentType = "text/html";
+        }
+        else if (req.url === "/favicon.ico") {
+            fileName = "yobagram.ico";
+            contentType = "image/x-icon";
+        }
+        else if (req.url.endsWith(".png") || req.url.endsWith(".jpg") || req.url.endsWith(".gif")) {
+            fileName = req.url.substr(1);
+            contentType = "image/png";
         }
         else if (req.url === "/Update") {
             res.setHeader("Content-Type", "text/html");

@@ -2,24 +2,27 @@
 
 <head>
     <meta charset="UTF_8" />
-    <title>Sample hosted HTML</title>
+    <title> YobaGram </title>
     <link rel="stylesheet" href="styles.css">
     <script type="text/javascript">
         let UserName = "FB1";
         let message = null;
 
         function Send() {
-            let time = 30;
-            let tmp = { name: UserName, time: time, text: message };
+            let tmp = { name: UserName, text: message };
+
             tmp = JSON.stringify(tmp);
             fetch("/", { method: 'POST', body: tmp });
+
+            Msg.value = "";
         };
 
         async function Get() {
             let data = await fetch("/Update", { method: 'GET' }).then(res => { return res.text() });
             data = data.split('\n');
+            data.pop()
             let tmp = "";
-            data.forEach(function (val) { tmp += val + "<br>" });
+            data.forEach(function (val) { tmp += '<span class="TextField">' + val + "</span><br>" });
             TextField.innerHTML = tmp;
         };
 
@@ -37,23 +40,41 @@
 </head>
 
 <body onload="GetInit();">
-    <div>
-        <button id="SendButton" class="Button" onclick="Send();">
-            <span class="ButtonText"> Send Message </span>
-        </button><br>
-        <button id="GetButton" class="Button" onclick="Get();">
-            <span class="ButtonText"> Get messages</span>
-        </button><br>
+    <div class="HandleDiv">
+        <img src="/yobagram.png" height="47px" width="47px" class="HandleImage">
+        <span class="Handle"> YobaGram </span>
+    </div>
+    <div class="MessagesList">
+        <h1>
+            <span class="MessageBoxHandle"> Message box: </span>
+        </h1>
+        <div id="TextField"> </div>
+    </div>
 
-        <label for="Name" class="InputLabel"> UserName </label>
-        <input type="text" id="Name" onkeyup="update_name()"><br>
+    <div class="Control">
+        <table>
+            <tr>
+                <td>
+                    <div>
+                        <label for="Name" class="InputLabel">
+                            <span class="InputLabelText"> UserName </span>
+                        </label>
+                        <input type="text" id="Name" onkeyup="update_name()" class="TextInput"><br>
 
-        <label for="Msg" class="InputLabel"> Message </label>
-        <input type="text" id="Msg" onkeyup="update_msg()"><br>
+                        <label for="Msg" class="InputLabel">
+                            <span class="InputLabelText"> Message </span>
+                        </label>
+                        <input type="text" id="Msg" onkeyup="update_msg()" class="TextInput">
+                    </div>
+                </td>
 
-        <div class="MessagesList">
-            <span class="TextField" id="TextField"> No messages were loaded </span>
-        </div>
+                <td>
+                    <button id="SendButton" class="Button" onclick="Send();">
+                        <span class="ButtonText"> Send Message </span>
+                    </button><br>
+                </td>
+            </tr>
+        </table>
     </div>
 </body>
 

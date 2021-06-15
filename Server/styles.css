@@ -8,13 +8,17 @@ html {
 html {
     width: 100%;
     height: 100%;
+    text-shadow: 0 0 2px rgba(180, 102, 225, 0.47);
 }
 
 body {
     width: 100%;
     height: 100%;
     position: relative;
-    background-color: rgb(180, 204, 204);
+    background-color: rgb(49, 36, 95);
+    background-image: url("/NyanCat.gif");
+    background-size: 100% 100%;
+    background-attachment: fixed;
 }
 
 .center {
@@ -31,35 +35,125 @@ body {
 }
 
 h1 {
-    font-size: 144px;
+    background-color: rgb(60, 110, 160);
+    font-size: 24px;
+    border-radius: 6px;
+    margin: 6px;
 }
 
-p {
-    font-size: 64px;
+.MessageBoxHandle {
+    margin: 4px;
+    font-family: Trebuchet;
 }
 
 .Button:hover {
-   background-color: rgb(90, 141, 240);
+    background-color: rgb(141, 141, 240);
+    transform: scale(1.1);
 }
 
 .Button {
-    background-color: darkgray;
+    background-image: url(/button_up.jpg);
+    background-size: 47px 47px;
+    background-color: rgb(90, 141, 240);
+    background-blend-mode: overlay;
     font-size: 18px;
     border-radius: 6px;
     margin: 4px;
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    height: 47px;
+    width: 94px;
+    transition: transform 102ms ease-in-out, background-color 300ms ease-in-out, background-image 300ms ease-in-out;
 }
 
 .Button:active {
-    background-color: #3e8e41;
+    background-image: url(/button_down.jpg);
+    background-size: 47px 47px;
+    background-color: rgb(141, 141, 240);
     box-shadow: 0 0px;
-    transform: translateY(4px);
+    transform: translateY(4px) scale(1.1);
   }
 
 .ButtonText {
     margin: 8px 5px;
 }
 
+#TextField {
+    max-width: 30vw;
+}
+
 .TextField {
     font-size: 18px;
+    margin-left: 1vw;
+    min-width: 27vw;
+    max-width: 90vw;
+    flex-wrap:wrap;
+    justify-content: left;
+    text-overflow: ellipsis;
+}
+
+.MessagesList {
+    background-color: rgb(80, 130, 180, 0.666);
+    margin-left: 1vw;
+    min-width: 18vw;
+    max-width: 47vw;
+    height:max-content;
+    font-family: Garamond;
+    transition: background-color 2s;
+}
+
+.MessagesList:hover {
+    background-color: rgb(80, 130, 180, 0.8);
+}
+
+.InputLabel {
+    background-color: rgb(113, 101, 192);
+    font-size: 16px;
+    border-radius: 8px;
+    margin: 3px;
+}
+
+.InputLabelText {
+    margin: 4px;
+}
+
+.TextInput {
+    width: 16vw;
+    margin: 3px;
+    border-radius: 4px;
+    box-shadow: 0 4px 6px 0 rgba(0,0,0,0.30);
+}
+
+.TextInput:focus {
+    transform: translateY(-4px) scale(1.1);
+    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.47);
+    transition: transform 470ms ease-in-out, box-shadow 470ms ease;
+}
+
+.Control {
+    background-color: rgb(190, 225, 225, 0.666);
+    width:max-content;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+}
+
+.Handle {
+    font-size: 47px;
+    margin: 12px 5px;
+    font-family: 'Consolas';
+    color: rgba(5, 0, 36, 1);
+    text-shadow: 0 0 6px rgba(102, 47, 225, 0.47);
+}
+
+.HandleDiv {
+    margin: 12px 1vw;
+    height: 60px;
+    background-color: rgb(101, 205, 170, 0.666);
+    border-radius: 16px;
+}
+
+.HandleImage {
+    margin-top: 6px;
+    margin-left: 16px;
+    border-radius: 23px;
 }
