@@ -14,17 +14,16 @@
             tmp.forEach(function (val) {
                 let n = parseInt(val);
                 if (n.toString() != 'NaN') {
-                    Arr.push(n);
+                    Arr.push(n + 1);
                 }
             });
-            alert(Arr);
         }
 
         function Solve() {
             let size = Arr.length;
 
             Arr.forEach(function (val, i) {
-                n = Math.abs(val) + 1;
+                n = Math.abs(val);
                 if (n - 1 < size) {
                     Arr[n - 1] = -Arr[n - 1];
                 }
@@ -51,7 +50,8 @@
     <span id="Answer"> </span><br>
     <textarea id="Input"></textarea><br>
     <button onclick="ArrInput();"> Confirm input </button>
-    <button onclick="Solve();"> Solve </button>
+    <button onclick="Solve();"> Solve </button><br>
+    <button onclick="ArrInput();Solve();"> Confirm & solve </button>
 </body>
 
 
