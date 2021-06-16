@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title> Day 17.06 quiz </title>
+    <script type"text/javascript">
+
+        let Arr = [];
+
+        function ArrInput() {
+            let tmp = Input.value.split(' ');
+            Arr = [];
+            tmp.forEach(function (val) {
+                let n = parseInt(val);
+                if (n.toString() != 'NaN') {
+                    Arr.push(n);
+                }
+            });
+            alert(Arr);
+        }
+
+        function Solve() {
+            let size = Arr.length;
+
+            Arr.forEach(function (val, i) {
+                n = Math.abs(val) + 1;
+                if (n - 1 < size) {
+                    Arr[n - 1] = -Arr[n - 1];
+                }
+            });
+
+            let i = 0;
+
+            while (i < size) {
+                let val = Arr[i];
+                if (val > 0) {
+                    alert(i);
+                    return;
+                }
+                i += 1;
+            }
+
+            alert(size);
+            return;
+        }
+    </script>
+</head>
+
+<body>
+    <span id="Answer"> Nothing </span><br>
+    <textarea id="Input"></textarea><br>
+    <button onclick="ArrInput();"> Confirm input </button>
+    <button onclick="Solve();"> Solve </button>
+</body>
+
+
+</html>
