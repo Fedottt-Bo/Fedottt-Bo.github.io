@@ -35,20 +35,20 @@
             while (i < size) {
                 let val = Arr[i];
                 if (val > 0) {
-                    alert(i);
+                    Answer.innerHTML = i.toString();
                     return;
                 }
                 i += 1;
             }
 
-            alert(size);
+            Answer.innerHTML = size.toString();
             return;
         }
     </script>
 </head>
 
 <body>
-    <span id="Answer"> Nothing </span><br>
+    <span id="Answer"> </span><br>
     <textarea id="Input"></textarea><br>
     <button onclick="ArrInput();"> Confirm input </button>
     <button onclick="Solve();"> Solve </button>
