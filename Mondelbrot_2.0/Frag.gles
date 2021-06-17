@@ -43,5 +43,5 @@ void main(void)
   vec2 Pos = vec2(MinPos.x * (1.0 - tx) + MaxPos.x * tx, MinPos.y * (1.0 - ty) + MaxPos.y * ty);
   float n = Mondel(Pos);
 
-  fColor = vec4(vec3(pow(n, 1.0 / 0.8), pow(n, 1.0 / 0.47), pow(n, 1.0 / 0.3)), 1.0);
+  fColor = vec4(vec3(pow(n, 0.8), pow(n, 0.47), (pow(n + 0.3, 0.3) - 0.6969)/0.385), 1.0);
 }
