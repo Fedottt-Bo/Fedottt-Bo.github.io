@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title> Day 17.06 quiz </title>
+    <script type"text/javascript">
+
+        let Arr = [];
+        let N = 0, K = 0;
+
+        function Input() {
+            let tmp = TextInput.value.split('\n');
+
+            tmp[0] = tmp[0].split(' ');
+            N = tmp[0][0];
+            K = tmp[0][1];
+            Arr = tmp[1];
+        }
+
+        function Solve() {
+            let size = Arr.length;
+
+            Arr.forEach(function (val, i) {
+                n = Math.abs(val);
+                if (n - 1 < size) {
+                    Arr[n - 1] = -Arr[n - 1];
+                }
+            });
+
+            let i = 0;
+
+            while (i < size) {
+                let val = Arr[i];
+                if (val > 0) {
+                    Answer.innerHTML = i.toString();
+                    return;
+                }
+                i += 1;
+            }
+
+            Answer.innerHTML = size.toString();
+            return;
+        }
+    </script>
+</head>
+
+<body>
+    <span id="Answer"> </span><br>
+    <textarea id="TextInput"></textarea><br>
+    <button onclick="Input();"> Confirm input </button>
+    <button onclick="Solve();"> Solve </button><br>
+    <button onclick="Input();Solve();"> Confirm & solve </button>
+</body>
+
+
+</html>
