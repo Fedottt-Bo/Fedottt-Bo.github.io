@@ -50,8 +50,8 @@
     function initShaders() {
       let frag_prm = null;
       let vert_prm = null;
-      frag_prm = fetch("https://fedottt-bo.github.io/Mondelbrot/Frag.gles").then(res => { return res.text() });
-      vert_prm = fetch("https://fedottt-bo.github.io/Mondelbrot/Vert.gles").then(res => { return res.text() });
+      frag_prm = fetch("https://fedottt-bo.github.io/Mondelbrot_2.0/Frag.gles").then(res => { return res.text() });
+      vert_prm = fetch("https://fedottt-bo.github.io/Mondelbrot_2.0/Vert.gles").then(res => { return res.text() });
 
       Promise.all([frag_prm, vert_prm]).then(values => {
         var fragmentShader = getShader(gl, values[0], "x-shader/x-fragment");
@@ -84,6 +84,7 @@
     var mvMatrix = mat4.create();
     var pMatrix = mat4.create();
     var n = 256.0;
+    var k = 1.0;
     var MinPos = { x: -2.0, y: -2.0 };
     var MaxPos = { x: 2.0, y: 2.0 };
     var NewPos = { x: 0, y: 0 };
@@ -92,6 +93,8 @@
     var ButtonPressed = false;
     var size = 1.0;
     var PagePos = { x: 0, y: 0 };
+    var time = 0.0;
+    var PrevTime = Date.now();
 
     function setMatrixUniforms() {
       gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix);
@@ -100,7 +103,7 @@
       gl.uniform2f(shaderProgram.MinPos, MinPos.x, MinPos.y);
       gl.uniform2f(shaderProgram.MaxPos, MaxPos.x, MaxPos.y);
       gl.uniform1f(shaderProgram.Size, size);
-      gl.uniform2f(shaderProgram.Aux, Math.sin(Date.now() / 100.0), Math.cos(Date.now() / 200.0));
+      gl.uniform2f(shaderProgram.Aux, Math.sin(time / 666.0), Math.cos(time / 1024.0));
     }
 
     var squareVertexPositionBuffer;
@@ -145,6 +148,8 @@
 
     function tick() {
       window.requestAnimationFrame(tick);
+      time += (Date.now() - PrevTime) * k;
+      PrevTime = Date.now();
       drawScene();
     }
 
@@ -244,6 +249,19 @@
       }
       //alert(data);
     }
+
+    function update_k() {
+      data = document.getElementById('k').value;
+      k = parseFloat(data);
+      if (isNaN(k)) {
+        k = 1;
+        document.getElementById('k').style.backgroundColor = '#FF0000';
+      }
+      else {
+        document.getElementById('k').style.backgroundColor = '#FFFFFF';
+      }
+      //alert(data);
+    }
   </script>
 
 
@@ -251,11 +269,12 @@
 
 
 <body onload="webGLStart();">
-  <canvas id="wegl-canvas" style="border: none;" width="900" height="900"></canvas>
+  <canvas id="wegl-canvas" style="border: none;" width="1024" height="1024"></canvas>
 
-  <br />
+  <br>
 
-  <label for="input_n"> Eval depth</label> <input type="text" id="n" onkeyup="update_n()"><br>
+  <label for="input_n"> Eval depth </label> <input type="number" id="n" onkeyup="update_n()"><br>
+  <label for="input_n"> Move speed </label> <input type="number" id="k" onkeyup="update_k()"><br>
 
 </body>
 
