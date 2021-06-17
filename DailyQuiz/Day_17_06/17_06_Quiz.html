@@ -13,40 +13,49 @@
             let tmp = TextInput.value.split('\n');
 
             tmp[0] = tmp[0].split(' ');
-            N = tmp[0][0];
-            K = tmp[0][1];
-            Arr = tmp[1];
+            N = parseInt(tmp[0][0]);
+            K = parseInt(tmp[0][1]);
+            Arr = Array.from(tmp[1]);
         }
 
         function Solve() {
-            let size = Arr.length;
-
-            Arr.forEach(function (val, i) {
-                n = Math.abs(val);
-                if (n - 1 < size) {
-                    Arr[n - 1] = -Arr[n - 1];
-                }
-            });
-
             let i = 0;
+            let IsSolve = true;
+            let SolveHistory = [Arr.join('')];
 
-            while (i < size) {
-                let val = Arr[i];
-                if (val > 0) {
-                    Answer.innerHTML = i.toString();
-                    return;
+            while (i < N) {
+                if (Arr[i] === '+') {
+                    i += 1
+                    continue;
                 }
+
+                if (N - i < K) {
+                    IsSolve = false;
+                    break;
+                }
+
+                for (let j = i; j < i + K; j += 1) {
+                    if (Arr[j] === '+') {
+                        Arr[j] = '-';
+                    }
+                    else {
+                        Arr[j] = '+';
+                    }
+                }
+
+                SolveHistory.push(Arr.join(''));
+
                 i += 1;
             }
 
-            Answer.innerHTML = size.toString();
+            Answer.innerHTML = IsSolve ? SolveHistory.join('\n<br>') : SolveHistory.join('\n<br>') + "<br>No solution<br>";
             return;
         }
     </script>
 </head>
 
 <body>
-    <span id="Answer"> </span><br>
+    <span id="Answer" style="font-family: 'Consolas';"> </span><br>
     <textarea id="TextInput"></textarea><br>
     <button onclick="Input();"> Confirm input </button>
     <button onclick="Solve();"> Solve </button><br>
