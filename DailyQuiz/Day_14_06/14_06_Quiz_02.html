@@ -6,20 +6,26 @@
     <script type="text/javascript">
 
         let Arr = [];
+        let N = 0;
+        let K = 0;
 
         async function ArrInput() {
-            let tmp = Input.value.split(' ');
-            Arr = [];
-            tmp.forEach(function (val) {
-                let n = parseInt(val);
-                if (n.toString() != 'NaN') {
-                    Arr.push(n + 1);
-                }
+            let tmp = Input.value.split('\n');
+            tmp[0] = tmp[0].split(' ');
+            N = parseInt(tmp[0][0]);
+            K = parseInt(tmp[0][1]);
+            Arr = tmp.slice(1);
+            Arr.forEach(function (val, i) {
+                Arr[i] = parseInt(val, 2);
             });
         }
 
         function Solve() {
-
+            alert(Arr);
+            let n = 0;
+            Arr.forEach(function (val, i) {
+                n ^= val;
+            });
 
             Output.innerHTML = "Answer: ";
         }

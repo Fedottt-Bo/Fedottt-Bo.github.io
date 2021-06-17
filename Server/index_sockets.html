@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF_8" />
+    <title> YobaGram </title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript">
+        var socket = 0;
+
+        var UserName = null;
+        var message = "";
+
+        function Send() {
+            if (UserName === null || message === "") {
+                Init();
+            }
+
+            let tmp = { name: UserName, text: message };
+
+            tmp = JSON.stringify(tmp);
+
+            socket.emit('message', tmp);
+
+            Msg.value = "";
+            message = "";
+        };
+
+        function SocketInit() {
+            socket = io({ query: { name: UserName } });
+            socket.on('message', function (msg) {
+                document.getElementById("TextField").innerHTML += `<span class="TextField"> ${msg.name} ${msg.time}: ${msg.text} </span><br>`;
+            });
+        }
+
+        async function Get() {
+            let data = await fetch("/Update", { method: 'GET' }).then(res => { return res.text() });
+            data = data.split('\n');
+            data.pop()
+            let tmp = "";
+            data.forEach(function (val) { tmp += '<span class="TextField">' + val + "</span><br>" });
+            TextField.innerHTML = tmp;
+        };
+
+        function Init() {
+            UserName = getCookie("name");
+            if (UserName === undefined || UserName === null || UserName === "") {
+                UserName = prompt("input your name:");
+                setCookie("name", UserName);
+            }
+            SocketInit();
+        }
+
+        function Relogin() {
+            deleteCookie('name');
+            socket.emit('unlogin', 0);
+            socket.disconnect();
+            Init();
+        }
+
+        function getCookie(name) {
+            let matches = document.cookie.match(new RegExp(
+                "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+            ));
+            return matches ? decodeURIComponent(matches[1]) : undefined;
+        }
+
+        function setCookie(name, value) {
+            let options = {
+                path: '/',
+            };
+
+            if (options.expires instanceof Date) {
+                options.expires = options.expires.toUTCString();
+            }
+
+            let updatedCookie = encodeURIComponent(name) + "=" + encodeURIComponent(value);
+
+            for (let optionKey in options) {
+                updatedCookie += "; " + optionKey;
+                let optionValue = options[optionKey];
+                if (optionValue !== true) {
+                    updatedCookie += "=" + optionValue;
+                }
+            }
+
+            document.cookie = updatedCookie;
+        }
+
+        function deleteCookie(name) {
+            setCookie(name, "", {
+                'max-age': -1
+            })
+        }
+
+        function update_name() {
+            UserName = Name.value;
+        }
+        function update_msg() {
+            message = Msg.value;
+        }
+    </script>
+</head>
+
+<body onload="Init();Get();">
+    <div class="HandleDiv">
+        <img src="/yobagram.png" height="47px" width="47px" class="HandleImage">
+        <span class="Handle"> YobaGram </span>
+        <button style="position: absolute; right: 16px; top: 8PX" onclick="Relogin();">
+            Relogin
+        </button>
+    </div>
+    <div class="MessagesList">
+        <h1>
+            <span class="MessageBoxHandle"> Message box: </span>
+        </h1>
+        <div id="TextField"> </div>
+    </div>
+
+    <div class="Control">
+        <table>
+            <tr>
+                <td>
+                    <div>
+                        <label for="Msg" class="InputLabel">
+                            <span class="InputLabelText"> Message </span>
+                        </label>
+                        <textarea type="text" id="Msg" onkeyup="update_msg()" class="TextInput MessageInput"
+                            cols="3"></textarea>
+                    </div>
+                </td>
+
+                <td>
+                    <button id="SendButton" class="Button" onclick="Send();">
+                        <span class="ButtonText"> Send Message </span>
+                    </button><br>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+
+</html>
