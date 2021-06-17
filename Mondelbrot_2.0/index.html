@@ -76,7 +76,7 @@
         shaderProgram.MinPos = gl.getUniformLocation(shaderProgram, "MinPos");
         shaderProgram.MaxPos = gl.getUniformLocation(shaderProgram, "MaxPos");
         shaderProgram.Size = gl.getUniformLocation(shaderProgram, "Size");
-        shaderProgram.C = gl.getUniformLocation(shaderProgram, "C");
+        shaderProgram.Aux = gl.getUniformLocation(shaderProgram, "C");
       });
     }
 
@@ -100,7 +100,7 @@
       gl.uniform2f(shaderProgram.MinPos, MinPos.x, MinPos.y);
       gl.uniform2f(shaderProgram.MaxPos, MaxPos.x, MaxPos.y);
       gl.uniform1f(shaderProgram.Size, size);
-      gl.uniform2f(shaderProgram.C, Math.sin(Date.now() / 100.0), Math.cos(Date.now() / 200.0));
+      gl.uniform2f(shaderProgram.Aux, Math.sin(Date.now() / 100.0), Math.cos(Date.now() / 200.0));
     }
 
     var squareVertexPositionBuffer;
