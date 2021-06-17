@@ -100,7 +100,7 @@
       gl.uniform2f(shaderProgram.MinPos, MinPos.x, MinPos.y);
       gl.uniform2f(shaderProgram.MaxPos, MaxPos.x, MaxPos.y);
       gl.uniform1f(shaderProgram.Size, size);
-      gl.uniform2f(shaderProgram.C, 0, 0);
+      gl.uniform2f(shaderProgram.C, Math.sin(Date.now() / 100.0), Math.cos(Date.now() / 200.0));
     }
 
     var squareVertexPositionBuffer;
